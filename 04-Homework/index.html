@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hasta Kayıt Sistemi</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <h1>Hasta Kayıt Sistemi</h1>
+      </header>
+
+      <!-- Navbar -->
+      <nav>
+        <ul>
+          <li><a href="index.html" class="active">Ana Sayfa</a></li>
+          <li><a href="hastalar.html">Hastalar</a></li>
+          <li><a href="#">Randevular</a></li>
+          <li><a href="#">İletişim</a></li>
+        </ul>
+      </nav>
+
+      <!-- Main Content -->
+      <main>
+        <!-- Left Menu -->
+        <aside class="side-menu">
+          <h3>Menü</h3>
+          <ul>
+            <li><a href="#">Yeni Kayıt</a></li>
+            <li><a href="hastalar.html">Hasta Listesi</a></li>
+            <li><a href="#">Raporlar</a></li>
+            <li><a href="#">Ayarlar</a></li>
+          </ul>
+        </aside>
+
+        <!-- Content -->
+        <section class="content">
+          <h2>Hasta Kayıt Formu</h2>
+          <form id="hastaKayitForm">
+            <div class="form-group">
+              <label for="ad">Ad:</label>
+              <input type="text" id="ad" name="ad" required />
+            </div>
+            <div class="form-group">
+              <label for="soyad">Soyad:</label>
+              <input type="text" id="soyad" name="soyad" required />
+            </div>
+            <div class="form-group">
+              <label for="tc">TC Kimlik No:</label>
+              <input type="text" id="tc" name="tc" maxlength="11" required />
+            </div>
+            <div class="form-group">
+              <label for="dogumTarihi">Doğum Tarihi:</label>
+              <input type="date" id="dogumTarihi" name="dogumTarihi" required />
+            </div>
+            <div class="form-group">
+              <label for="telefon">Telefon:</label>
+              <input type="tel" id="telefon" name="telefon" required />
+            </div>
+            <div class="form-group">
+              <label for="email">E-posta:</label>
+              <input type="email" id="email" name="email" />
+            </div>
+            <div class="form-group">
+              <button type="submit">Kaydet</button>
+            </div>
+          </form>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer>
+        <p>&copy; 2024 Hasta Kayıt Sistemi. Tüm hakları saklıdır.</p>
+      </footer>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

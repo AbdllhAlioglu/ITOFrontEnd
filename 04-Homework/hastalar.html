@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hasta Listesi - Hasta Kayıt Sistemi</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .hasta-tablosu {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+
+      .hasta-tablosu th,
+      .hasta-tablosu td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .hasta-tablosu th {
+        background-color: #2c3e50;
+        color: white;
+      }
+
+      .hasta-tablosu tr:nth-child(even) {
+        background-color: #f8f9fa;
+      }
+
+      .hasta-tablosu tr:hover {
+        background-color: #f2f2f2;
+      }
+
+      .bos-mesaj {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+      }
+
+      .sil-btn {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .sil-btn:hover {
+        background-color: #c0392b;
+      }
+
+      .tumunu-sil-btn {
+        background-color: #c0392b;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-bottom: 1rem;
+      }
+
+      .tumunu-sil-btn:hover {
+        background-color: #962d22;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <h1>Hasta Kayıt Sistemi</h1>
+      </header>
+
+      <!-- Navbar -->
+      <nav>
+        <ul>
+          <li><a href="index.html">Ana Sayfa</a></li>
+          <li><a href="hastalar.html" class="active">Hastalar</a></li>
+          <li><a href="#">Randevular</a></li>
+          <li><a href="#">İletişim</a></li>
+        </ul>
+      </nav>
+
+      <!-- Main Content -->
+      <main>
+        <!-- Left Menu -->
+        <aside class="side-menu">
+          <h3>Menü</h3>
+          <ul>
+            <li><a href="index.html">Yeni Kayıt</a></li>
+            <li><a href="hastalar.html">Hasta Listesi</a></li>
+            <li><a href="#">Raporlar</a></li>
+            <li><a href="#">Ayarlar</a></li>
+          </ul>
+        </aside>
+
+        <!-- Content -->
+        <section class="content">
+          <h2>Hasta Listesi</h2>
+          <button onclick="tumHastalariSil()" class="tumunu-sil-btn">
+            Tüm Hastaları Sil
+          </button>
+          <div id="hastaListesi"></div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer>
+        <p>&copy; 2024 Hasta Kayıt Sistemi. Tüm hakları saklıdır.</p>
+      </footer>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const hastaListesiDiv = document.getElementById("hastaListesi");
+        const hastalar = JSON.parse(localStorage.getItem("hastalar")) || [];
+
+        if (hastalar.length === 0) {
+          hastaListesiDiv.innerHTML =
+            '<p class="bos-mesaj">Henüz kayıtlı hasta bulunmamaktadır.</p>';
+        } else {
+          const table = document.createElement("table");
+          table.className = "hasta-tablosu";
+
+          // Tablo başlığı
+          const thead = document.createElement("thead");
+          thead.innerHTML = `
+            <tr>
+              <th>Ad</th>
+              <th>Soyad</th>
+              <th>TC Kimlik No</th>
+              <th>Doğum Tarihi</th>
+              <th>Telefon</th>
+              <th>E-posta</th>
+              <th>İşlemler</th>
+            </tr>
+          `;
+          table.appendChild(thead);
+
+          // Tablo gövdesi
+          const tbody = document.createElement("tbody");
+          hastalar.forEach((hasta, index) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${hasta.ad}</td>
+              <td>${hasta.soyad}</td>
+              <td>${hasta.tc}</td>
+              <td>${new Date(hasta.dogumTarihi).toLocaleDateString(
+                "tr-TR"
+              )}</td>
+              <td>${hasta.telefon}</td>
+              <td>${hasta.email || "-"}</td>
+              <td>
+                <button 
+                  onclick="hastaySil(${index})" 
+                  class="sil-btn"
+                >
+                  Sil
+                </button>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+          table.appendChild(tbody);
+
+          hastaListesiDiv.appendChild(table);
+        }
+      });
+
+      // Silme fonksiyonu
+      function hastaySil(index) {
+        if (confirm("Bu hastayı silmek istediğinizden emin misiniz?")) {
+          const hastalar = JSON.parse(localStorage.getItem("hastalar")) || [];
+          hastalar.splice(index, 1);
+          localStorage.setItem("hastalar", JSON.stringify(hastalar));
+          location.reload();
+        }
+      }
+
+      // Tüm hastaları silme fonksiyonu
+      function tumHastalariSil() {
+        const hastalar = JSON.parse(localStorage.getItem("hastalar")) || [];
+
+        if (hastalar.length === 0) {
+          alert("Silinecek hasta kaydı bulunmamaktadır!");
+          return;
+        }
+
+        if (
+          confirm(
+            "Tüm hasta kayıtlarını silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!"
+          )
+        ) {
+          localStorage.removeItem("hastalar");
+          location.reload();
+        }
+      }
+    </script>
+  </body>
+</html>
